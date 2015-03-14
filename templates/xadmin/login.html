@@ -16,7 +16,7 @@
         }
         .loginBox {
             width: 420px;
-            height: 230px;
+            height: 260px;
             padding: 0 20px;
             border: 1px solid #fff;
             color: #000;
@@ -49,26 +49,28 @@
 </head>
 <body>
 <div class="container">
-    <section class="loginBox row-fluid">
-        <section class="span7 left">
-            <h2>商户登录</h2>
+    <div class="loginBox row">
+        <div class="col-lg-7 left">
+            <h2>系统登录</h2>
 
-            <p><input type="text" name="username"/></p>
-
-            <p><input type="text" name="password"/></p>
-            <section class="row-fluid">
-                <section class="span8 lh30"><label><input type="checkbox" name="rememberme"/>下次自动登录</label></section>
-                <section class="span1"><input type="button" value=" 登录 " class="btn btn-primary"></section>
-            </section>
-        </section>
-        <section class="span5 right">
+            <form method="POST" action="{% url 'xadmin:sys_login' %}">
+                {% csrf_token %}
+                {% if error_message %}
+                    <label style="color:red">{{ error_message }}</label>
+                {% endif %}
+                <p><input class="form-control" type="text" name="username" required ></p>
+                <p><input class="form-control" type="password" name="password" required ></p>
+                <input type="submit" value=" 登录 " class="btn btn-primary">
+            </form>
+        </div>
+        <div class="col-lg-5">
             <h2>没有帐户？</h2>
-            <section>
+            <div>
                 <p>这里有一段文字啊，很多的文字啊，太多太多的文字了，主要可以介绍介绍注册的好处和公司或者项目概况。。。</p>
                 <p><input type="button" value=" 注册 " class="btn"></p>
-            </section>
-        </section>
-    </section>
+            </div>
+        </div>
+    </div>
     <!-- /loginBox -->
 </div>
 <!-- /container -->
