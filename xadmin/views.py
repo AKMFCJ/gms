@@ -19,14 +19,17 @@ def sys_login(request):
     #remember_me = request.POST.get('remember_me', '')
 
     user = authenticate(username=username, password=password)
-    print user
     if user:
-        #if remember_me == 'on':
-        #    request.session.set_expiry(300)
-        return HttpResponse('success')
+        return render(request, 'xadmin/index.html', {'username': username})
     else:
         user = User.objects.filter(username=username)
         if user:
             return render(request, 'xadmin/login.html', {'error_message': '密码不正确!'})
         else:
             return render(request, 'xadmin/login.html', {'error_message': '用户名不存在!'})
+
+
+def sys_setting_page(request):
+    """系统设置页面"""
+
+    return render(request, 'xadmin/setting.html')
