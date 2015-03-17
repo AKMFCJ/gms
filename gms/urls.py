@@ -9,5 +9,6 @@ urlpatterns = patterns('',
 
     url(r'^$', login_page),
     url(r'^xadmin/', include('xadmin.urls', namespace='xadmin')),
+    url(r'^repository/', include('repository.urls', namespace='repository')),
 
 )
