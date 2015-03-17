@@ -1,8 +1,10 @@
 #-*- encoding:utf-8 -*-
 __author__ = 'changjie.fan' '15-3-14'
 
-from django.shortcuts import render, HttpResponse, Http404
-from django.contrib.auth import authenticate
+from django.shortcuts import render
+from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib import auth
+from django.contrib.auth import authenticate, logout as user_logout, login as user_login
 from django.contrib.auth.models import User
 
 
@@ -20,6 +22,7 @@ def sys_login(request):
 
     user = authenticate(username=username, password=password)
     if user:
+        user_login(request, user)
         return render(request, 'xadmin/index.html', {'username': username})
     else:
         user = User.objects.filter(username=username)
@@ -27,6 +30,13 @@ def sys_login(request):
             return render(request, 'xadmin/login.html', {'error_message': '密码不正确!'})
         else:
             return render(request, 'xadmin/login.html', {'error_message': '用户名不存在!'})
+
+
+def sys_logout(request):
+    """注销系统"""
+
+    user_logout(request)
+    return render(request, 'xadmin/login.html')
 
 
 def sys_setting_page(request):
