@@ -138,5 +138,5 @@ LOGGING = {
     }
 }
 
-GIT_SERVE_DIR = "/home/roy/gitolite_admin_workspace"
-GIT_REPOSITORIES = "/home/roy/repositories"
+GIT_SERVE_DIR = "/Users/roygitolite_admin_workspace"
+GIT_REPOSITORIES = "/Users/roy/repositories"

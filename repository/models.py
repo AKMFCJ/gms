@@ -13,7 +13,7 @@ class Repository(models.Model):
     name = models.CharField(max_length=300)
     path = models.CharField(max_length=500)
     active = models.BooleanField(default=True)
-    created_date = models.DateField()
+    created_date = models.DateTimeField()
     description = models.CharField(max_length=500)
 
     def __unicode__(self):
