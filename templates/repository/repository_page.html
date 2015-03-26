@@ -16,7 +16,7 @@
             {% for index, repo in repositories %}
             <tr>
                 <td>{{index}}</td>
-                <td><a href="{% url 'repository:repository_main' repo.id '' %}">{{repo.name}}</a></td>
+                <td><a href="{% url 'repository:repository_main' repo.id%}">{{repo.name}}</a></td>
                 <td>{{repo.path}}</td>
             </tr>
             {% endfor %}

@@ -6,12 +6,13 @@
             <select style="width:40%" onchange="reference_change(value)">
                 {% for reference in references %}
                     {% if current_reference == reference.name %}
-                        <option value="{{reference.name}}" selected=""><a href="">{{reference.name}}</a></option>
+                        <option value="{{reference.name}}" selected="">{{reference.name}}</option>
                     {% else %}
-                        <option value="{{reference.name}}"><a href="">{{reference.name}}</a></option>
+                        <option value="{{reference.name}}">{{reference.name}}</option>
                     {% endif %}
                 {% endfor %}
             </select>
+            {{current_path}}
         </div>
         <div class="col-sm-2">{{ last_commit}}</div>
     </div>
@@ -25,7 +26,15 @@
             <tbody>
                 {% for file in file_list%}
                     <tr>
-                        <td>{{file.name}}</td>
+                        {% if file.type == 'tree' %}
+                            <td class="glyphicon glyphicon-folder-close">
+                                <a href='{% url "repository:repository_main" repository.id %}?reference_name={{current_reference}}&file_path={{ file.path }}'>
+                                    {{file.name}}
+                                </a>
+                            </td>
+                        {% else %}
+                            <td class="glyphicon glyphicon-file">{{file.name}}</td>
+                        {% endif %}
                         <td>{{file.message}}</td>
                         <td>{{file.committed_date}}</td>
                     </tr>
@@ -39,7 +48,7 @@
 {% block script %}
 <script>
     function reference_change(value){
-        window.location.href='{% url "repository:repository_main" repository.id ""%}' + value;
+        window.location.href='{% url "repository:repository_main" repository.id %}?reference_name='+value;
     }
 </script>
 {% endblock %}
