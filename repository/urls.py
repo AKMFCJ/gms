@@ -5,5 +5,5 @@ urlpatterns = patterns('',
 
     url(r'^repository_list/$', repository_list, name='repository_list'),
     url(r'^add_repository/$', add_repository, name='add_repository'),
-    url(r'^repository_main/(?P<repo_id>\d+)$', repository_main, name='repository_main'),
+    url(r'^repository_main/(?P<repo_id>\d+)(?P<reference_name>.*)$', repository_main, name='repository_main'),
 )

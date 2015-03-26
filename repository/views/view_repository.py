@@ -14,6 +14,7 @@ from git import *
 from ..models import Repository
 from gms.settings import GIT_REPOSITORIES
 from gms.utils import get_current_time
+from repository.lib.repo_options import RepoOptions
 
 
 def repository_list(request):
@@ -24,12 +25,44 @@ def repository_list(request):
         {'repositories': repositories})
 
 
-def repository_main(request, repo_id):
+def repository_main(request, repo_id, reference_name):
     """显示仓库目录信息"""
 
     repository = Repository.objects.get(id=repo_id)
+    repo_option = RepoOptions(repository.path)
+    repo = repo_option.repo
+    result = []
+    last_commit = ''
 
-    return render(request, 'repository/repository.html', {'repository': repository})
+    if not reference_name:
+        if repo.references:
+            reference_name = repo.references[0].name
+
+    if reference_name:
+        last_commit = repo.commit(reference_name)
+        file_list = [tmp.split('\t') for tmp in repo_option.show(reference_name, '/').split('\n') if tmp]
+
+        for file_info in file_list:
+            record = {}
+            tmp = file_info[0].split(' ')
+            record['name'] = file_info[1]
+            record['type'] = tmp[1]
+            record['object_id'] = tmp[2]
+            record['path'] = ''
+            log_info = repo_option.file_log(reference_name, record['name']).split('$$')
+            if log_info:
+                print log_info
+                record['committed_date'] = log_info[0]
+                record['message'] = log_info[1]
+            else:
+                record['committed_date'] = ''
+                record['message'] = ''
+            result.append(record)
+
+
+    print reference_name
+    return render(request, 'repository/repository.html', {'repository': repository, 'references': repo.references,
+        'current_reference': reference_name, 'last_commit': last_commit, 'file_list': result})
 
 
 def add_repository(request):

@@ -1,35 +1,45 @@
 {% extends "xadmin/my_base.html" %}
 {% block body%}
-<div class="container">
-
-
-    <table class="table table-hover">
-        <thead>
-            <th style="width:1%"></th>
-            <th style="width:30%"></th>
-            <th style="width:60%"></th>
-        </thead>
-        <tbody>
-            {% for index, repo in repositories %}
-            <tr>
-                <td>{{index}}</td>
-                <td><a href="">{{repo.name}}</a></td>
-                <td>{{repo.path}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-
-
+<div class="container" style="width:90%">
+    <div class="row">
+        <div class="col-sm-10">
+            <select style="width:40%" onchange="reference_change(value)">
+                {% for reference in references %}
+                    {% if current_reference == reference.name %}
+                        <option value="{{reference.name}}" selected=""><a href="">{{reference.name}}</a></option>
+                    {% else %}
+                        <option value="{{reference.name}}"><a href="">{{reference.name}}</a></option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-2">{{ last_commit}}</div>
+    </div>
+    <div class="">
+        <table class="table table-hover">
+            <thead>
+                <th style="width:20%"></th>
+                <th style="width:65%"></th>
+                <th style="width:15%"></th>
+            </thead>
+            <tbody>
+                {% for file in file_list%}
+                    <tr>
+                        <td>{{file.name}}</td>
+                        <td>{{file.message}}</td>
+                        <td>{{file.committed_date}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}
 
 {% block script %}
-<script type="text/javascript">
-function form_submit(){
-    $("#new_repository_form").submit();
-}
-
+<script>
+    function reference_change(value){
+        window.location.href='{% url "repository:repository_main" repository.id ""%}' + value;
+    }
 </script>
 {% endblock %}
