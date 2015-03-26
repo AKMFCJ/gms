@@ -1,4 +1,6 @@
 {% extends "xadmin/my_base.html" %}
+
+
 {% block body%}
 <div class="container" style="width:90%">
     <div class="row">
@@ -12,7 +14,7 @@
                     {% endif %}
                 {% endfor %}
             </select>
-            {{current_path}}
+            {{current_path|safe}}
         </div>
         <div class="col-sm-2">{{ last_commit}}</div>
     </div>

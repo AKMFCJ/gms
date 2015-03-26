@@ -14,6 +14,7 @@ from ..models import Repository
 from gms.settings import GIT_REPOSITORIES
 from gms.utils import get_current_time
 from repository.lib.repo_options import RepoOptions
+from repository.lib.utils import path_to_url
 
 
 def repository_list(request):
@@ -45,10 +46,11 @@ def repository_main(request, repo_id):
 
     result = repo_option.show(reference_name, file_path)
 
-
+    href = '/repository/repository_main/%s?reference_name=%s' % (repo_id, reference_name)
+    current_path = path_to_url(file_path, href)
     return render(request, 'repository/repository.html', {'repository': repository, 'references': repo.references,
         'current_reference': reference_name, 'last_commit': last_commit, 'file_list': result,
-        'current_path': file_path})
+        'current_path': current_path})
 
 
 def add_repository(request):
