@@ -23,7 +23,7 @@ def sys_login(request):
     user = authenticate(username=username, password=password)
     if user:
         user_login(request, user)
-        print username
+        #print username
         return render(request, 'xadmin/index.html', {'username': username})
     else:
         user = User.objects.filter(username=username)

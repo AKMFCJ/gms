@@ -11,5 +11,5 @@ def get_current_time(fromat_str='%Y-%m-%d %H:%M:%S'):
 def session_context(request):
     return {'session': request.session}
 
-if __name__ == '__main__':
-    print get_current_time()
+#if __name__ == '__main__':
+    #print get_current_time()

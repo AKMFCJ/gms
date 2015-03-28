@@ -37,10 +37,9 @@ def repository_main(request, repo_id):
 
     last_commit = ''
 
-    if not reference_name:
-        if repo.references:
-            reference_name = repo.references[0].name
-    print "file_path:%s" % file_path
+    if not reference_name and repo.references:
+        reference_name = repo.references[0].name
+    #print "file_path:%s" % file_path
     if reference_name:
         last_commit = repo.commit(reference_name)
 
