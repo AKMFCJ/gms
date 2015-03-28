@@ -8,5 +8,8 @@ def get_current_time(fromat_str='%Y-%m-%d %H:%M:%S'):
     return time.strftime(fromat_str)
 
 
+def session_context(request):
+    return {'session': request.session}
+
 if __name__ == '__main__':
     print get_current_time()

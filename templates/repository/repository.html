@@ -35,7 +35,11 @@
                                 </a>
                             </td>
                         {% else %}
-                            <td class="glyphicon glyphicon-file">{{file.name}}</td>
+                            <td class="glyphicon glyphicon-file">
+                                <a href='{% url "repository:repository_file_content" repository.id %}?revision={{current_reference}}&file_path={{file.path}}'>
+                                    {{file.name}}
+                                </a>
+                            </td>
                         {% endif %}
                         <td>{{file.message}}</td>
                         <td>{{file.committed_date}}</td>

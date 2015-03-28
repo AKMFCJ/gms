@@ -95,6 +95,10 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "gms.utils.session_context",
+)
+
 #日志设置
 LOGGING = {
     'version': 1,

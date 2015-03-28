@@ -44,7 +44,10 @@ def repository_main(request, repo_id):
     if reference_name:
         last_commit = repo.commit(reference_name)
 
-    result = repo_option.show(reference_name, file_path)
+    result = repo_option.ls_tree(reference_name, file_path)
+
+    request.session['repository_id'] = repo_id
+    request.session['repository_name'] = repository.name
 
     href = '/repository/repository_main/%s?reference_name=%s' % (repo_id, reference_name)
     current_path = path_to_url(file_path, href)
@@ -69,3 +72,16 @@ def add_repository(request):
     repository.save()
 
     return HttpResponseRedirect('/repository/repository_list/')
+
+
+def repository_file_content(request, repo_id):
+    """show repository file content"""
+
+    revision = request.GET.get('revision', '')
+    file_path = request.GET.get('file_path', '')
+    repository = Repository.objects.get(id=repo_id)
+
+    repo_option = RepoOptions(repository.path)
+    file_content = repo_option.show_file_content(revision, file_path).replace('\n', '<br>')
+
+    return render(request, 'repository/file_content.html', {'file_path': file_path,'file_content': file_content})
