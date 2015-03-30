@@ -5,7 +5,7 @@
 <div class="container" style="width:90%">
     <ol class="breadcrumb">
         <li><a href="{% url 'repository:repository_main' session.repository_id%}">{{session.repository_name}}</a></li>
-        <li><a href="">file_path</a></li>
+        <li><a href="">{{ file_path }}</a></li>
     </ol>
 
     {{ file_content|safe}}

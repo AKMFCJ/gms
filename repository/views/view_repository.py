@@ -50,6 +50,10 @@ def repository_main(request, repo_id):
 
     href = '/repository/repository_main/%s?reference_name=%s' % (repo_id, reference_name)
     current_path = path_to_url(file_path, href)
+    if current_path:
+        current_path = '/' + current_path
+    current_path = '<a href="/repository/repository_main/%s">%s</a>' % (repository.id, repository.name) + current_path
+
     return render(request, 'repository/repository.html', {'repository': repository, 'references': repo.references,
         'current_reference': reference_name, 'last_commit': last_commit, 'file_list': result,
         'current_path': current_path})
