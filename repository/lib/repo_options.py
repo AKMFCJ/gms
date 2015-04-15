@@ -4,8 +4,8 @@ import commands
 from git import *
 
 class MyCommitObj(object):
-    def __init__(self, commit_id, author_name, author_email, authored_date, committer_name, committer_email,
-        committered_date, title, message):
+    def __init__(self, commit_id='', author_name='', author_email='', authored_date='',
+        committer_name='', committer_email='', committered_date='', title='', message=''):
         self.commit_id = commit_id
         self.author_name = author_name
         self.author_email = author_email
@@ -102,9 +102,11 @@ class RepoOptions(object):
             for commit_line in history:
                 if commit_line:
                     commit_line = commit_line.split('<-#->')
-                    print commit_line
-                    commit = MyCommitObj(commit_line[0], commit_line[1], commit_line[2], commit_line[3], commit_line[4]
+                    if len(commit_line) == 9:
+                        commit = MyCommitObj(commit_line[0], commit_line[1], commit_line[2], commit_line[3], commit_line[4]
                         , commit_line[5], commit_line[6], commit_line[7], commit_line[8])
+                    else:
+                        commit = MyCommitObj(message=''.join(commit_line))
                     commit_list.append(commit)
 
             return True, commit_list
