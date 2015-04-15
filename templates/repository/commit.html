@@ -1,5 +1,4 @@
 {% extends "xadmin/my_base.html" %}
-{% extends "xadmin/my_base.html" %}
 
 
 {% block body%}
@@ -9,7 +8,9 @@
         <li><a href="">{{ file_path }}</a></li>
     </ol>
 
-    {{ file_content|safe}}
+    {% for line in commit_info %}
+        {{ line|safe }}<br>
+    {% endfor %}
 
 </div>
 {% endblock %}

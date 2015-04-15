@@ -1,0 +1,36 @@
+{% extends "xadmin/my_base.html" %}
+
+
+{% block body%}
+<div class="container" style="width:90%">
+    <ol class="breadcrumb">
+        <li>Git Repo:
+            <a href="{% url 'repository:repository_main' session.repository_id%}">
+                {{session.repository_name}}
+            </a>
+        </li>
+    </ol>
+    <table class="table table-hover">
+        {% for commit_date, commits in all_commit %}
+            <tr>
+                <td colspan=4>{{ commit_date }}</td>
+            </tr>
+            {% for commit in commits %}
+                <tr class="active">
+                    <td>{{ commit.commit_id }}</td>
+                    <td>
+                        <a href="{% url 'repository:show_commit' repository.id %}?commit_id={{commit.commit_id}}">
+                            {{ commit.title }}
+                        </a>
+                    </td>
+                    <td>{{ commit.committer_name}}</td>
+                    <td>{{ comit.commit_id }}</td>
+            </tr>
+            {% endfor %}
+        {% endfor %}
+
+    </table>
+
+
+</div>
+{% endblock %}

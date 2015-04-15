@@ -3,6 +3,20 @@ import os
 import commands
 from git import *
 
+class MyCommitObj(object):
+    def __init__(self, commit_id, author_name, author_email, authored_date, committer_name, committer_email,
+        committered_date, title, message):
+        self.commit_id = commit_id
+        self.author_name = author_name
+        self.author_email = author_email
+        self.authored_date = authored_date[:10]
+        self.committer_name = committer_name
+        self.committer_email = committer_email
+        self.committered_date = committered_date[:10]
+        self.title = title
+        self.message = message
+
+
 class RepoOptions(object):
     def __init__(self, repo_path):
         self.repo_path = repo_path
@@ -67,3 +81,36 @@ class RepoOptions(object):
         """显示指定版本的文件内容"""
 
         return self.git.execute(['git', 'show', "%s:%s" % (revision, file_path)])
+
+    def reference_commit_count(self, revision=''):
+        """统计reference上commit的总数"""
+
+        return len([tmp for tmp in self.git.execute(['git', 'log',
+            '--pretty=format:%h', revision]).split('\n') if tmp])
+
+    def commits(self, revision=''):
+        """revision commit history"""
+
+        format_str='%h<-#->%an<-#->%ae<-#->%ad<-#->%cn<-#->%ce<-#->%cd<-#->%s<-#->%b'
+        status, history = commands.getstatusoutput('git --git-dir=%s log --date=iso --pretty=format:"%s" %s'
+            % ( self.repo_path, format_str, revision))
+        if status:
+            return False, []
+        else:
+            commit_list = []
+            history = history.split('\n')
+            for commit_line in history:
+                if commit_line:
+                    commit_line = commit_line.split('<-#->')
+                    print commit_line
+                    commit = MyCommitObj(commit_line[0], commit_line[1], commit_line[2], commit_line[3], commit_line[4]
+                        , commit_line[5], commit_line[6], commit_line[7], commit_line[8])
+                    commit_list.append(commit)
+
+            return True, commit_list
+
+    def show_object(self, object_str=''):
+        """show git object info"""
+
+        return self.git.execute(['git', 'show', object_str])
+
